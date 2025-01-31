@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
+import ErrorComponent from "../Error/ErrorComponent";
 
 interface User {
   id: number;
@@ -24,7 +25,6 @@ const UserList: React.FC = () => {
         const result: User[] = await response.json();
         // console.log(result);
         setUsersData(result);
-        setIsLoading(false);
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -34,9 +34,7 @@ const UserList: React.FC = () => {
     fetchUsers();
   }, []);
 
-  if (error) {
-    return <p>Error Message: {error}</p>;
-  }
+  if (error) return <ErrorComponent message={error} />;
 
   return (
     <>
@@ -47,6 +45,7 @@ const UserList: React.FC = () => {
           {usersData.map((user) => (
             <div key={user.id}>
               <span>{user.name}</span> - <span>{user.email}</span>
+              <button>View</button>
             </div>
           ))}
         </>
