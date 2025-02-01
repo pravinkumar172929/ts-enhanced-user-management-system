@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
 import ErrorComponent from "../Error/ErrorComponent";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: number;
@@ -22,6 +23,8 @@ const UserList: React.FC = () => {
   }
 
   const { users, setUsers } = userContext;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -46,6 +49,10 @@ const UserList: React.FC = () => {
 
   if (error) return <ErrorComponent message={error} />;
 
+  const goToUserProfile = () => {
+    navigate("/user");
+  };
+
   return (
     <>
       {isLoading ? (
@@ -55,7 +62,7 @@ const UserList: React.FC = () => {
           {users.map((user: User) => (
             <div key={user.id}>
               <span>{user.name}</span> - <span>{user.email}</span>
-              <button>View</button>
+              <button onClick={goToUserProfile}>View</button>
             </div>
           ))}
         </>
