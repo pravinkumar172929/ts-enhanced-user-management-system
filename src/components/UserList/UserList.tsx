@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
 import ErrorComponent from "../Error/ErrorComponent";
+import { UserContext } from "../../context/UserContext";
 
 interface User {
   id: number;
@@ -9,9 +10,18 @@ interface User {
 }
 
 const UserList: React.FC = () => {
-  const [usersData, setUsersData] = useState<User[]>([]);
+  const userContext = useContext(UserContext);
+  // console.log(userContext);
+
+  // const [usersData, setUsersData] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
+
+  if (!useContext) {
+    throw new Error("User Context is not availble");
+  }
+
+  const { users, setUsers } = userContext;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -24,7 +34,7 @@ const UserList: React.FC = () => {
         }
         const result: User[] = await response.json();
         // console.log(result);
-        setUsersData(result);
+        setUsers(result);
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -42,7 +52,7 @@ const UserList: React.FC = () => {
         <Loader />
       ) : (
         <>
-          {usersData.map((user) => (
+          {users.map((user: User) => (
             <div key={user.id}>
               <span>{user.name}</span> - <span>{user.email}</span>
               <button>View</button>
