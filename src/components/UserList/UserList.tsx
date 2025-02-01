@@ -49,8 +49,8 @@ const UserList: React.FC = () => {
 
   if (error) return <ErrorComponent message={error} />;
 
-  const goToUserProfile = () => {
-    navigate("/user");
+  const goToUserProfile = (userId: number) => {
+    navigate(`/user/${userId}`);
   };
 
   return (
@@ -62,7 +62,13 @@ const UserList: React.FC = () => {
           {users.map((user: User) => (
             <div key={user.id}>
               <span>{user.name}</span> - <span>{user.email}</span>
-              <button onClick={goToUserProfile}>View</button>
+              <button
+                onClick={() => {
+                  goToUserProfile(user.id);
+                }}
+              >
+                View
+              </button>
             </div>
           ))}
         </>
