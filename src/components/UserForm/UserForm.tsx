@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ErrorComponent from "../Error/ErrorComponent";
+import Loader from "../Loader/Loader";
 
 interface User {
   id: number;
@@ -14,6 +15,7 @@ const UserForm: React.FC = () => {
     email: "",
   });
   const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -22,8 +24,9 @@ const UserForm: React.FC = () => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/usersjj`,
+        `https://jsonplaceholder.typicode.com/users`,
         {
           method: "POST",
           headers: {
@@ -40,6 +43,8 @@ const UserForm: React.FC = () => {
       alert("User Created");
     } catch (error) {
       setError((error as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,22 +52,28 @@ const UserForm: React.FC = () => {
 
   return (
     <>
-      <h1>User Form</h1>
-      <input
-        type="text"
-        placeholder="Your Full Name..."
-        name="name"
-        onChange={changeHandler}
-        value={user.name}
-      />
-      <input
-        type="email"
-        placeholder="Your Email..."
-        name="email"
-        onChange={changeHandler}
-        value={user.email}
-      />
-      <button onClick={submitHandler}>Add User</button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1>User Form</h1>
+          <input
+            type="text"
+            placeholder="Your Full Name..."
+            name="name"
+            onChange={changeHandler}
+            value={user.name}
+          />
+          <input
+            type="email"
+            placeholder="Your Email..."
+            name="email"
+            onChange={changeHandler}
+            value={user.email}
+          />
+          <button onClick={submitHandler}>Add User</button>
+        </>
+      )}
     </>
   );
 };
