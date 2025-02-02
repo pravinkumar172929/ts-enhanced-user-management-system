@@ -4,7 +4,7 @@ import UserForm from "../../components/UserForm/UserForm";
 const AddUser: React.FC = () => {
   return (
     <>
-      <UserForm />
+      <UserForm clickedUser={undefined} />
     </>
   );
 };

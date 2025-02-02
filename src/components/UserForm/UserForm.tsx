@@ -3,17 +3,25 @@ import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
 
 interface User {
-  id: number;
+  // id: number;
   name: string;
   email: string;
 }
 
-const UserForm: React.FC = () => {
-  const [user, setUser] = useState<User>({
-    id: 0,
-    name: "",
-    email: "",
-  });
+interface UserFormProps {
+  clickedUser: User | undefined;
+}
+
+const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
+  // console.log(clickedUser);
+
+  const [user, setUser] = useState<User>(
+    clickedUser || {
+      // id: 0,
+      name: "",
+      email: "",
+    }
+  );
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -71,7 +79,9 @@ const UserForm: React.FC = () => {
             onChange={changeHandler}
             value={user.email}
           />
-          <button onClick={submitHandler}>Add User</button>
+          <button onClick={submitHandler}>
+            {clickedUser ? "Update" : "Add"} User
+          </button>
         </>
       )}
     </>

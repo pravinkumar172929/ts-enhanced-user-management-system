@@ -19,7 +19,7 @@ const EditUser: React.FC = () => {
 
   return (
     <>
-      <UserForm />
+      <UserForm clickedUser={clickedUser} />
     </>
   );
 };

@@ -54,7 +54,7 @@ const UserList: React.FC = () => {
   };
 
   const goToEdit = (userId: number) => {
-    console.log(userId);
+    // console.log(userId);
     navigate(`/edit-user/${userId}`);
   };
 
