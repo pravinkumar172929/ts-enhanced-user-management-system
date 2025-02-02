@@ -3,20 +3,14 @@ import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 
-// interface User {
-//   id: number;
-//   name: string;
-//   email: string;
-// }
-
 const UserForm: React.FC = () => {
   const [user, setUser] = useState<Partial<User>>({
-    id: 0,
     name: "",
     email: "",
   });
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -40,8 +34,12 @@ const UserForm: React.FC = () => {
         throw new Error(`There is Error!!: ${response.status}`);
       }
       const createdUser = await response.json();
-      console.log(createdUser);
-      alert("User Created");
+      setSuccessMessage("User Created Successfully!");
+      setUser({ name: "", email: "" });
+      // console.log(createdUser);
+      setTimeout(() => {
+        setSuccessMessage(null), 1000;
+      });
     } catch (error) {
       setError((error as Error).message);
     } finally {
@@ -58,6 +56,7 @@ const UserForm: React.FC = () => {
       ) : (
         <>
           <h1>User Form</h1>
+          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
           <input
             type="text"
             placeholder="Your Full Name..."

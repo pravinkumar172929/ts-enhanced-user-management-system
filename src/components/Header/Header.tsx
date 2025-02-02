@@ -10,10 +10,6 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
-  const goToUser = () => {
-    navigate("/user");
-  };
-
   const goToAddUser = () => {
     navigate("/add-user");
   };
@@ -29,9 +25,6 @@ const Header: React.FC = () => {
           <ul className={navbarList}>
             <li className={navbarListItem} onClick={goToHome}>
               Home
-            </li>
-            <li className={navbarListItem} onClick={goToUser}>
-              User Profile
             </li>
             <li className={navbarListItem} onClick={goToAddUser}>
               Add User
