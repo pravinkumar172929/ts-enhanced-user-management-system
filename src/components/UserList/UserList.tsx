@@ -53,6 +53,10 @@ const UserList: React.FC = () => {
     navigate(`/user/${userId}`);
   };
 
+  const goToEdit = () => {
+    navigate("/edit-user");
+  };
+
   return (
     <>
       {isLoading ? (
@@ -69,6 +73,7 @@ const UserList: React.FC = () => {
               >
                 View
               </button>
+              <button onClick={goToEdit}>Edit</button>
             </div>
           ))}
         </>
