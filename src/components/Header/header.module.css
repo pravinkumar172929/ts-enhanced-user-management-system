@@ -1,0 +1,23 @@
+.header {
+  color: white;
+  background-color: #333;
+  padding: 15px;
+}
+
+.navbarList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbarListItem {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.navbarListItem:hover {
+  text-decoration: underline;
+}
