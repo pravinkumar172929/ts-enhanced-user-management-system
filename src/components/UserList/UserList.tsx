@@ -18,9 +18,9 @@ const UserList: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  if (!useContext) {
-    throw new Error("User Context is not availble");
-  }
+  // if (!useContext) {
+  //   throw new Error("User Context is not availble");
+  // }
 
   const { users, setUsers } = userContext;
 
