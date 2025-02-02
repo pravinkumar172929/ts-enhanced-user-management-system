@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
+import { User } from "../../types/userTypes";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+// interface User {
+//   id: number;
+//   name: string;
+//   email: string;
+// }
 
 const UserForm: React.FC = () => {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<Partial<User>>({
     id: 0,
     name: "",
     email: "",
