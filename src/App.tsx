@@ -4,7 +4,6 @@ import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import AddUser from "./pages/AddUser/AddUser";
 import EditUser from "./pages/EditUser/EditUser";
-BrowserRouter;
 
 function App() {
   return (
