@@ -53,8 +53,9 @@ const UserList: React.FC = () => {
     navigate(`/user/${userId}`);
   };
 
-  const goToEdit = () => {
-    navigate("/edit-user");
+  const goToEdit = (userId: number) => {
+    console.log(userId);
+    navigate(`/edit-user/${userId}`);
   };
 
   return (
@@ -73,7 +74,13 @@ const UserList: React.FC = () => {
               >
                 View
               </button>
-              <button onClick={goToEdit}>Edit</button>
+              <button
+                onClick={() => {
+                  goToEdit(user.id);
+                }}
+              >
+                Edit
+              </button>
             </div>
           ))}
         </>
