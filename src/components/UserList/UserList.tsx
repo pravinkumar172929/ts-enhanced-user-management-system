@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import ErrorComponent from "../Error/ErrorComponent";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 interface User {
   id: number;
@@ -12,42 +13,21 @@ interface User {
 
 const UserList: React.FC = () => {
   const userContext = useContext(UserContext);
-  // console.log(userContext);
-
-  // const [usersData, setUsersData] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<null | string>(null);
-
-  if (!useContext) {
-    throw new Error("User Context is not availble");
-  }
+  const navigate = useNavigate();
 
   const { users, setUsers } = userContext;
 
-  const navigate = useNavigate();
+  const { data, isLoading, error } = useFetch<User[]>(
+    `https://jsonplaceholder.typicode.com/users`
+  );
+
+  // console.log(data, isLoading, error);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(
-          `https://jsonplaceholder.typicode.com/users`
-        );
-        if (!response.ok) {
-          throw new Error(`Error!! Something went wrong: ${response.status}`);
-        }
-        const result: User[] = await response.json();
-        // console.log(result);
-        setUsers(result);
-      } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  if (error) return <ErrorComponent message={error} />;
+    if (data) {
+      setUsers(data);
+    }
+  }, [data, setUsers]);
 
   const goToUserProfile = (userId: number) => {
     navigate(`/user/${userId}`);
@@ -58,33 +38,35 @@ const UserList: React.FC = () => {
     navigate(`/edit-user/${userId}`);
   };
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorComponent message={error} />;
+  }
+
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          {users.map((user: User) => (
-            <div key={user.id}>
-              <span>{user.name}</span> - <span>{user.email}</span>
-              <button
-                onClick={() => {
-                  goToUserProfile(user.id);
-                }}
-              >
-                View
-              </button>
-              <button
-                onClick={() => {
-                  goToEdit(user.id);
-                }}
-              >
-                Edit
-              </button>
-            </div>
-          ))}
-        </>
-      )}
+      {users.map((user: User) => (
+        <div key={user.id}>
+          <span>{user.name}</span> - <span>{user.email}</span>
+          <button
+            onClick={() => {
+              goToUserProfile(user.id);
+            }}
+          >
+            View
+          </button>
+          <button
+            onClick={() => {
+              goToEdit(user.id);
+            }}
+          >
+            Edit
+          </button>
+        </div>
+      ))}
     </>
   );
 };
