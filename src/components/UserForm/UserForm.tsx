@@ -10,7 +10,7 @@ const UserForm: React.FC = () => {
   });
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<null | string>(null);
+  const [successMessage, setsuccessMessage] = useState<null | string>(null);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -34,12 +34,13 @@ const UserForm: React.FC = () => {
         throw new Error(`There is Error!!: ${response.status}`);
       }
       const createdUser = await response.json();
-      setSuccessMessage("User Created Successfully!");
+      console.log(createdUser);
+      setsuccessMessage(`User with ${createdUser.name} created successfully!`);
       setUser({ name: "", email: "" });
-      // console.log(createdUser);
+
       setTimeout(() => {
-        setSuccessMessage(null), 1000;
-      });
+        setsuccessMessage(null);
+      }, 1000);
     } catch (error) {
       setError((error as Error).message);
     } finally {
