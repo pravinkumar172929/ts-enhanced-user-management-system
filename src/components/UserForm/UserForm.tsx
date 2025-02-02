@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ErrorComponent from "../Error/ErrorComponent";
 
 interface User {
   id: number;
@@ -12,15 +13,37 @@ const UserForm: React.FC = () => {
     name: "",
     email: "",
   });
+  const [error, setError] = useState<null | string>(null);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("User Created");
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/usersjj`,
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(user),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`There is Error!!: ${response.status}`);
+      }
+      const createdUser = await response.json();
+      console.log(createdUser);
+      alert("User Created");
+    } catch (error) {
+      setError((error as Error).message);
+    }
   };
+
+  if (error) return <ErrorComponent message={error} />;
 
   return (
     <>
