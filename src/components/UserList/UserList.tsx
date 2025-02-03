@@ -6,14 +6,9 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import UserCard from "./UserCard/UserCard";
 import styles from "./userList.module.css";
+import { User } from "../../types/userTypes";
 
 const { userListContainer } = styles;
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
 
 const UserList: React.FC = () => {
   const userContext = useContext(UserContext);

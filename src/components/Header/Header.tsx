@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./header.module.css";
 import { useNavigate } from "react-router-dom";
-const { header, navbarList, navbarListItem } = styles;
+const { header, navbarList, navbarListItem, navbarTitle } = styles;
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -14,10 +14,6 @@ const Header: React.FC = () => {
     navigate("/add-user");
   };
 
-  const goToEditUser = () => {
-    navigate("/edit-user");
-  };
-
   return (
     <>
       <header className={header}>
@@ -26,11 +22,9 @@ const Header: React.FC = () => {
             <li className={navbarListItem} onClick={goToHome}>
               Home
             </li>
+            <li className={navbarTitle}>User Management System</li>
             <li className={navbarListItem} onClick={goToAddUser}>
               Add User
-            </li>
-            <li className={navbarListItem} onClick={goToEditUser}>
-              Edit User
             </li>
           </ul>
         </nav>
