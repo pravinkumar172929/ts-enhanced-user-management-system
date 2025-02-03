@@ -5,6 +5,9 @@ import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import UserCard from "./UserCard/UserCard";
+import styles from "./userList.module.css";
+
+const { userListContainer } = styles;
 
 interface User {
   id: number;
@@ -49,7 +52,7 @@ const UserList: React.FC = () => {
 
   return (
     <>
-      <div>
+      <div className={userListContainer}>
         {users.map((user) => (
           <UserCard user={user} key={user.id} />
         ))}
