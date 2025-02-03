@@ -33,15 +33,6 @@ const UserList: React.FC = () => {
     }
   }, [data, setUsers]);
 
-  const goToUserProfile = (userId: number) => {
-    navigate(`/user/${userId}`);
-  };
-
-  const goToEdit = (userId: number) => {
-    // console.log(userId);
-    navigate(`/edit-user/${userId}`);
-  };
-
   if (isLoading) {
     return <Loader />;
   }
@@ -51,32 +42,16 @@ const UserList: React.FC = () => {
   }
 
   return (
-    <>
-      <div className={userListContainer}>
-        {users.map((user) => (
-          <UserCard user={user} key={user.id} />
-        ))}
-      </div>
-      {/* {users.map((user: User) => (
-        <div key={user.id}>
-          <span>{user.name}</span> - <span>{user.email}</span>
-          <button
-            onClick={() => {
-              goToUserProfile(user.id);
-            }}
-          >
-            View
-          </button>
-          <button
-            onClick={() => {
-              goToEdit(user.id);
-            }}
-          >
-            Edit
-          </button>
-        </div>
-      ))} */}
-    </>
+    <div className={userListContainer}>
+      {users.map((user) => (
+        <UserCard
+          key={user.id}
+          user={user}
+          goToUserProfile={() => navigate(`/user/${user.id}`)}
+          goToEdit={() => navigate(`/edit-user/${user.id}`)}
+        />
+      ))}
+    </div>
   );
 };
 
