@@ -5,7 +5,13 @@ import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
 
-const { formContainer, successMessageStyle, inputField, button } = styles;
+const {
+  formContainer,
+  successMessageStyle,
+  inputField,
+  button,
+  errorContainer,
+} = styles;
 
 interface UserFormProps {
   clickedUser: User | undefined;
@@ -34,7 +40,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/usershh`,
+        `https://jsonplaceholder.typicode.com/users`,
         {
           method: "POST",
           headers: {
@@ -66,7 +72,13 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     }
   };
 
-  if (error) return <ErrorComponent message={error} />;
+  if (error)
+    return (
+      <div className={errorContainer}>
+        <ErrorComponent message={error} />
+        <button onClick={() => navigate("/")}>Home</button>
+      </div>
+    );
 
   return (
     <div className={formContainer}>

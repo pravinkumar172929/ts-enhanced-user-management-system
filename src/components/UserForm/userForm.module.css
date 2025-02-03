@@ -48,3 +48,19 @@
 .button:hover {
   background-color: #0056b3;
 }
+
+.errorContainer {
+  text-align: center;
+}
+
+.errorContainer button {
+  background: #333;
+  width: 200px;
+  padding: 10px;
+  color: #ffcc00;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
