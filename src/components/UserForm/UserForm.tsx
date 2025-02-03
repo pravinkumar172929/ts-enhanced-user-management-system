@@ -3,8 +3,10 @@ import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 
+type userFormData = Pick<User, "name" | "email">;
+
 const UserForm: React.FC = () => {
-  const [user, setUser] = useState<Partial<User>>({
+  const [user, setUser] = useState<userFormData>({
     name: "",
     email: "",
   });
