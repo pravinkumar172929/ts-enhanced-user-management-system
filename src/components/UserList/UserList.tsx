@@ -49,8 +49,12 @@ const UserList: React.FC = () => {
 
   return (
     <>
-      <UserCard />
-      {users.map((user: User) => (
+      <div>
+        {users.map((user) => (
+          <UserCard user={user} key={user.id} />
+        ))}
+      </div>
+      {/* {users.map((user: User) => (
         <div key={user.id}>
           <span>{user.name}</span> - <span>{user.email}</span>
           <button
@@ -68,7 +72,7 @@ const UserList: React.FC = () => {
             Edit
           </button>
         </div>
-      ))}
+      ))} */}
     </>
   );
 };

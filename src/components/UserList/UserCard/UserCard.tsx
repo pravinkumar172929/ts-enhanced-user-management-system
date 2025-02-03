@@ -4,12 +4,22 @@ import styles from "./userCard.module.css";
 
 const { profileContainer, profileName, profileEmail } = styles;
 
-const UserCard: React.FC = () => {
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface UserCardProps {
+  user: User;
+}
+
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (
     <div className={profileContainer}>
       <img src={proFilePic} alt="profile-pic" />
-      <span className={profileName}>Dan Joe</span>
-      <span className={profileEmail}>danJoe@fake.com</span>
+      <span className={profileName}>{user.name}</span>
+      <span className={profileEmail}>{user.email}</span>
       <button>View Details</button>
       <button>Edit User</button>
     </div>
