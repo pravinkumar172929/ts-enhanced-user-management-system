@@ -4,6 +4,7 @@ import ErrorComponent from "../Error/ErrorComponent";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import UserCard from "./UserCard/UserCard";
 
 interface User {
   id: number;
@@ -48,6 +49,7 @@ const UserList: React.FC = () => {
 
   return (
     <>
+      <UserCard />
       {users.map((user: User) => (
         <div key={user.id}>
           <span>{user.name}</span> - <span>{user.email}</span>

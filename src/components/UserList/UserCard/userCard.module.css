@@ -1,0 +1,34 @@
+.profileContainer {
+  /* border: 1px solid red; */
+  width: 200px;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.profileContainer img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.profileName {
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+}
+
+.profileEmail {
+  font-size: 14px;
+  color: #777;
+  display: block;
+}
+
+.profileContainer button {
+  cursor: pointer;
+  margin: 5px;
+}
