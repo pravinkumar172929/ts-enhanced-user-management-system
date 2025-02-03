@@ -1,29 +1,22 @@
 import React, { useState } from "react";
 import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
-
-interface User {
-  // id: number;
-  name: string;
-  email: string;
-}
+import { User } from "../../types/userTypes";
 
 interface UserFormProps {
   clickedUser: User | undefined;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
-  // console.log(clickedUser);
+type UserFormData = Pick<User, "name" | "email">;
 
-  const [user, setUser] = useState<User>(
-    clickedUser || {
-      // id: 0,
-      name: "",
-      email: "",
-    }
-  );
+const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
+  const [user, setUser] = useState<UserFormData>({
+    name: !clickedUser ? "" : clickedUser.name,
+    email: !clickedUser ? "" : clickedUser.email,
+  });
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successMessage, setsuccessMessage] = useState<null | string>(null);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -48,7 +41,12 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
       }
       const createdUser = await response.json();
       console.log(createdUser);
-      alert("User Created");
+      setsuccessMessage(`User with ${createdUser.name} created successfully!`);
+      setUser({ name: "", email: "" });
+
+      setTimeout(() => {
+        setsuccessMessage(null);
+      }, 1000);
     } catch (error) {
       setError((error as Error).message);
     } finally {
@@ -65,6 +63,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
       ) : (
         <>
           <h1>User Form</h1>
+          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
           <input
             type="text"
             placeholder="Your Full Name..."

@@ -11,9 +11,9 @@ const UserProfile: React.FC = () => {
   const userContext = useContext(UserContext);
   const { id } = useParams<{ id: string }>();
   // console.log(id);
-  if (!useContext) {
-    return <p>UserContext is not available</p>;
-  }
+  // if (!useContext) {
+  //   return <p>UserContext is not available</p>;
+  // }
   const { users } = userContext;
   const clickedUser: User | undefined = users.find(
     (user) => user.id === Number(id)
