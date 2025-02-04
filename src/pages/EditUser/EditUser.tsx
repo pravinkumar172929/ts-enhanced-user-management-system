@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserForm from "../../components/UserForm/UserForm";
+import { UserContext } from "../../context/UserContext";
+import { useParams } from "react-router-dom";
 
 const EditUser: React.FC = () => {
-  return <div>EditUser</div>;
+  const userContext = useContext(UserContext);
+  const { id } = useParams();
+  console.log(id);
+  if (!userContext) {
+    return <p>User Context not available</p>;
+  }
+
+  const { users } = userContext;
+  // console.log(users);
+
+  const clickedUser = users.find((user) => user.id === Number(id));
+  console.log(clickedUser);
+
+  if (!clickedUser) {
+    return <p>User doesn't exist!!</p>;
+  }
+
+  return (
+    <>
+      <UserForm clickedUser={clickedUser} />
+    </>
+  );
 };
 
 export default EditUser;

@@ -3,12 +3,16 @@ import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 
-type userFormData = Pick<User, "name" | "email">;
+interface UserFormProps {
+  clickedUser: User | undefined;
+}
 
-const UserForm: React.FC = () => {
-  const [user, setUser] = useState<userFormData>({
-    name: "",
-    email: "",
+type UserFormData = Pick<User, "name" | "email">;
+
+const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
+  const [user, setUser] = useState<UserFormData>({
+    name: !clickedUser ? "" : clickedUser.name,
+    email: !clickedUser ? "" : clickedUser.email,
   });
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -74,7 +78,9 @@ const UserForm: React.FC = () => {
             onChange={changeHandler}
             value={user.email}
           />
-          <button onClick={submitHandler}>Add User</button>
+          <button onClick={submitHandler}>
+            {clickedUser ? "Update" : "Add"} User
+          </button>
         </>
       )}
     </>
