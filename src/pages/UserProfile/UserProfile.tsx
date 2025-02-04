@@ -36,7 +36,7 @@ const UserProfile: React.FC = () => {
         src={`https://i.pravatar.cc/150?u=${id}`}
         alt="User Profile"
       />
-      <h3 className={userName}>{clickedUser.name}</h3>
+      <h3 className={userName}>{name}</h3>
       <h4 className={userDetails}>Username: {username}</h4>
       <h4 className={userDetails}>Email: {email}</h4>
       <h4 className={userDetails}>Phone: {phone}</h4>
