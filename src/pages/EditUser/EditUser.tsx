@@ -6,16 +6,10 @@ import { useParams } from "react-router-dom";
 const EditUser: React.FC = () => {
   const userContext = useContext(UserContext);
   const { id } = useParams();
-  // console.log(id);
-  if (!userContext) {
-    return <p>User Context not available</p>;
-  }
 
   const { users } = userContext;
-  // console.log(users);
 
   const clickedUser = users.find((user) => user.id === Number(id));
-  // console.log(clickedUser);
 
   if (!clickedUser) {
     return <p>User doesn't exist!!</p>;

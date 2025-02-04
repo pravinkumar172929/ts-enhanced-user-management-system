@@ -20,8 +20,6 @@ const UserList: React.FC = () => {
     `https://jsonplaceholder.typicode.com/users`
   );
 
-  // console.log(data, isLoading, error);
-
   useEffect(() => {
     if (data) {
       setUsers(data);

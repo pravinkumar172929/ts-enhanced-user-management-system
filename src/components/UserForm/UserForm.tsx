@@ -22,8 +22,8 @@ type UserFormData = Pick<User, "name" | "email" | "phone" | "website">;
 const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserFormData>({
-    name: !clickedUser ? "" : clickedUser.name,
-    email: !clickedUser ? "" : clickedUser.email,
+    name: clickedUser ? clickedUser.name : "",
+    email: clickedUser ? clickedUser.email : "",
     phone: clickedUser ? clickedUser.phone : "",
     website: clickedUser ? clickedUser.website : "",
   });
@@ -53,7 +53,6 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
         throw new Error(`There is Error!!: ${response.status}`);
       }
       const createdUser = await response.json();
-      console.log(createdUser);
       setsuccessMessage(
         `User with ${createdUser.name} ${
           clickedUser ? "Updated" : "Created"
