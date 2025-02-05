@@ -2,17 +2,30 @@ import React, { useState } from "react";
 import ErrorComponent from "../Error/ErrorComponent";
 import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
+import styles from "./userForm.module.css";
+import { useNavigate } from "react-router-dom";
+
+const {
+  formContainer,
+  successMessageStyle,
+  inputField,
+  button,
+  errorContainer,
+} = styles;
 
 interface UserFormProps {
   clickedUser: User | undefined;
 }
 
-type UserFormData = Pick<User, "name" | "email">;
+type UserFormData = Pick<User, "name" | "email" | "phone" | "website">;
 
 const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserFormData>({
-    name: !clickedUser ? "" : clickedUser.name,
-    email: !clickedUser ? "" : clickedUser.email,
+    name: clickedUser ? clickedUser.name : "",
+    email: clickedUser ? clickedUser.email : "",
+    phone: clickedUser ? clickedUser.phone : "",
+    website: clickedUser ? clickedUser.website : "",
   });
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,12 +53,16 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
         throw new Error(`There is Error!!: ${response.status}`);
       }
       const createdUser = await response.json();
-      console.log(createdUser);
-      setsuccessMessage(`User with ${createdUser.name} created successfully!`);
-      setUser({ name: "", email: "" });
+      setsuccessMessage(
+        `User with ${createdUser.name} ${
+          clickedUser ? "Updated" : "Created"
+        } successfully!`
+      );
+      setUser({ name: "", email: "", phone: "", website: "" });
 
       setTimeout(() => {
         setsuccessMessage(null);
+        navigate("/");
       }, 1000);
     } catch (error) {
       setError((error as Error).message);
@@ -54,22 +71,31 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     }
   };
 
-  if (error) return <ErrorComponent message={error} />;
+  if (error)
+    return (
+      <div className={errorContainer}>
+        <ErrorComponent message={error} />
+        <button onClick={() => navigate("/")}>Home</button>
+      </div>
+    );
 
   return (
-    <>
+    <div className={formContainer}>
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <h1>User Form</h1>
-          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+          {successMessage && (
+            <p className={successMessageStyle}>{successMessage}</p>
+          )}
           <input
             type="text"
             placeholder="Your Full Name..."
             name="name"
             onChange={changeHandler}
             value={user.name}
+            className={inputField}
           />
           <input
             type="email"
@@ -77,13 +103,30 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
             name="email"
             onChange={changeHandler}
             value={user.email}
+            className={inputField}
           />
-          <button onClick={submitHandler}>
+          <input
+            type="text"
+            placeholder="Your Phone..."
+            name="phone"
+            onChange={changeHandler}
+            value={user.phone}
+            className={inputField}
+          />
+          <input
+            type="text"
+            placeholder="Your Website..."
+            name="website"
+            onChange={changeHandler}
+            value={user.website}
+            className={inputField}
+          />
+          <button className={button} onClick={submitHandler}>
             {clickedUser ? "Update" : "Add"} User
           </button>
         </>
       )}
-    </>
+    </div>
   );
 };
 

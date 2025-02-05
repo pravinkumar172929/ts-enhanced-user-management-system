@@ -15,9 +15,6 @@ export const UserContext = createContext<UserContextTypes>({
   setUsers: () => {},
 });
 
-// provided a default valued object instead of undefined to UserContext, so it returns a valid object with
-// setUsers: () => {} prevents ts errors
-
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [users, setUsers] = useState<User[]>([]);
 
