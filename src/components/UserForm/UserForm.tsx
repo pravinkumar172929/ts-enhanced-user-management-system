@@ -30,7 +30,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   });
 
   const { data, isLoading, error, postDataFunction } = usePost<UserFormData>(
-    `https://jsonplaceholder.typicode.com/users22`
+    `https://jsonplaceholder.typicode.com/users`
   );
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
