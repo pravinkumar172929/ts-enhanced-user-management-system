@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
+import usePost from "../../hooks/usePost";
 
 const {
   formContainer,
@@ -27,9 +28,10 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     phone: clickedUser ? clickedUser.phone : "",
     website: clickedUser ? clickedUser.website : "",
   });
-  const [error, setError] = useState<null | string>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [successMessage, setsuccessMessage] = useState<null | string>(null);
+
+  const { data, isLoading, error, postDataFunction } = usePost<UserFormData>(
+    `https://jsonplaceholder.typicode.com/users22`
+  );
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -37,37 +39,12 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users`,
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify(user),
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`There is Error!!: ${response.status}`);
-      }
-      const createdUser = await response.json();
-      setsuccessMessage(
-        `User with ${createdUser.name} ${
-          clickedUser ? "Updated" : "Created"
-        } successfully!`
-      );
-      setUser({ name: "", email: "", phone: "", website: "" });
+    await postDataFunction(user);
 
+    if (!error) {
       setTimeout(() => {
-        setsuccessMessage(null);
         navigate("/");
       }, 1000);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -86,8 +63,10 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
       ) : (
         <>
           <h1>User Form</h1>
-          {successMessage && (
-            <p className={successMessageStyle}>{successMessage}</p>
+          {data && (
+            <p className={successMessageStyle}>
+              User {clickedUser ? "Updated" : "created"} Successfully!
+            </p>
           )}
           <input
             type="text"
