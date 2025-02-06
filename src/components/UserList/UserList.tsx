@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import ErrorComponent from "../Error/ErrorComponent";
 import { UserContext } from "../../context/UserContext";
@@ -26,6 +26,20 @@ const UserList: React.FC = () => {
     }
   }, [data, setUsers]);
 
+  const goToUserProfile = useCallback(
+    (userId: number) => {
+      navigate(`/user/${userId}`);
+    },
+    [navigate]
+  );
+
+  const goToEdit = useCallback(
+    (userId: number) => {
+      navigate(`/edit-user/${userId}`);
+    },
+    [navigate]
+  );
+
   if (isLoading) {
     return <Loader />;
   }
@@ -40,12 +54,12 @@ const UserList: React.FC = () => {
         <UserCard
           key={user.id}
           user={user}
-          goToUserProfile={() => navigate(`/user/${user.id}`)}
-          goToEdit={() => navigate(`/edit-user/${user.id}`)}
+          goToUserProfile={() => goToUserProfile(user.id)}
+          goToEdit={() => goToEdit(user.id)}
         />
       ))}
     </div>
   );
 };
 
-export default UserList;
+export default React.memo(UserList);
