@@ -29,8 +29,9 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     phone: clickedUser ? clickedUser.phone : "",
     website: clickedUser ? clickedUser.website : "",
   });
+  const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
-  const { data, isLoading, error, postDataFunction } = useFetch<UserFormData>(
+  const { data, isLoading, error, fetchData } = useFetch<UserFormData>(
     `https://jsonplaceholder.typicode.com/users`
   );
 
@@ -40,9 +41,12 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    await postDataFunction(user);
+    await fetchData(user);
 
     if (!error) {
+      setSuccessMessage(
+        `User ${clickedUser ? "Updated" : "created"} Successfully`
+      );
       setTimeout(() => {
         navigate("/");
       }, 1000);
@@ -64,10 +68,8 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
       ) : (
         <>
           <h1>User Form</h1>
-          {data && (
-            <p className={successMessageStyle}>
-              User {clickedUser ? "Updated" : "created"} Successfully!
-            </p>
+          {successMessage && (
+            <p className={successMessageStyle}>{successMessage}</p>
           )}
           <input
             type="text"
