@@ -5,6 +5,7 @@ import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
 import usePost from "../../hooks/usePost";
+import useFetch from "../../hooks/useFetch";
 
 const {
   formContainer,
@@ -29,7 +30,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
     website: clickedUser ? clickedUser.website : "",
   });
 
-  const { data, isLoading, error, postDataFunction } = usePost<UserFormData>(
+  const { data, isLoading, error, postDataFunction } = useFetch<UserFormData>(
     `https://jsonplaceholder.typicode.com/users`
   );
 
