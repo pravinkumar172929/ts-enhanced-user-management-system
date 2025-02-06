@@ -4,7 +4,7 @@ import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
-import usePost from "../../hooks/usePost";
+// import usePost from "../../hooks/usePost";
 import useFetch from "../../hooks/useFetch";
 
 const {
