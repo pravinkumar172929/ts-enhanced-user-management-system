@@ -50,7 +50,6 @@ const useFetch = <T,>(url: string): ApiResponse<T> => {
     }
   };
 
-  // Fetch data on mount
   useEffect(() => {
     fetchData();
   }, [url]);
