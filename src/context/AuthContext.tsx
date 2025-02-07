@@ -5,7 +5,6 @@ interface AuthContextTypes {
   userAuth: UserAuth | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  error: null | string;
 }
 
 interface AuthProviderProps {
@@ -18,7 +17,6 @@ export const AuthContext = createContext<AuthContextTypes | undefined>(
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userAuth, setUserAuth] = useState<null | UserAuth>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const login = async (email: string, password: string) => {
     try {
@@ -36,7 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         alert("wrong email or password");
       }
     } catch (error) {
-      setError((error as Error).message);
+      console.error("Error:", error);
     }
   };
 
@@ -46,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userAuth, login, logout, error }}>
+    <AuthContext.Provider value={{ userAuth, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

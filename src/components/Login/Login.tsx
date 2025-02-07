@@ -6,7 +6,7 @@ const Login: React.FC = () => {
   if (!authContext) {
     throw new Error("Something wrong!!");
   }
-  const { userAuth, login, logout } = authContext;
+  const { login } = authContext;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +18,6 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      {userAuth && <p>Welcome! {userAuth.email}</p>}
       <input
         type="text"
         placeholder="Your email here..."
@@ -32,7 +31,6 @@ const Login: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={loginHandler}>Login</button>
-      {userAuth && <button onClick={logout}>Logout</button>}
     </div>
   );
 };
