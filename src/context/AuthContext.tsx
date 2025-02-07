@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useState } from "react";
 import { UserAuth } from "../types/authType";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextTypes {
   userAuth: UserAuth | null;
@@ -16,6 +17,7 @@ export const AuthContext = createContext<AuthContextTypes | undefined>(
 );
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const navigate = useNavigate();
   const [userAuth, setUserAuth] = useState<null | UserAuth>(null);
 
   const login = async (email: string, password: string) => {
@@ -30,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (foundUser) {
         setUserAuth(foundUser);
         alert("login successful");
+        navigate("/");
       } else {
         alert("wrong email or password");
       }
@@ -41,6 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUserAuth(null);
     alert("logout successful!");
+    navigate("/login");
   };
 
   return (

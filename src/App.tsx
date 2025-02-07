@@ -1,5 +1,5 @@
 import Header from "./components/Header/Header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader/Loader";
 import Login from "./components/Login/Login";
@@ -13,24 +13,20 @@ const EditUser = lazy(() => import("./pages/EditUser/EditUser"));
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}
-            >
-              <Route path="/" element={<Home />} />
-              <Route path="/user/:id" element={<UserProfile />} />
-            </Route>
-            <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
-              <Route path="/add-user" element={<AddUser />} />
-              <Route path="/edit-user/:id" element={<EditUser />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
+      <Header />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          {/* <Route element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/user/:id" element={<UserProfile />} />
+          {/* </Route> */}
+          {/* <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}> */}
+          <Route path="/add-user" element={<AddUser />} />
+          <Route path="/edit-user/:id" element={<EditUser />} />
+          {/* </Route> */}
+        </Routes>
+      </Suspense>
     </>
   );
 }
