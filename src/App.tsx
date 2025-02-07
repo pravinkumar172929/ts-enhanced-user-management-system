@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader/Loader";
 import Login from "./components/Login/Login";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const UserProfile = lazy(() => import("./pages/UserProfile/UserProfile"));
@@ -16,11 +17,17 @@ function App() {
         <Header />
         <Suspense fallback={<Loader />}>
           <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/user/:id" element={<UserProfile />}></Route>
-            <Route path="/add-user" element={<AddUser />}></Route>
-            <Route path="/edit-user/:id" element={<EditUser />}></Route>
             <Route path="/login" element={<Login />} />
+            <Route
+              element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}
+            >
+              <Route path="/" element={<Home />} />
+              <Route path="/user/:id" element={<UserProfile />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+              <Route path="/add-user" element={<AddUser />} />
+              <Route path="/edit-user/:id" element={<EditUser />} />
+            </Route>
           </Routes>
         </Suspense>
       </BrowserRouter>
