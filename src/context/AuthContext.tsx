@@ -31,6 +31,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       );
       if (foundUser) {
         setUserAuth(foundUser);
+        alert("login successful");
+      } else {
+        alert("wrong email or password");
       }
     } catch (error) {
       setError((error as Error).message);
@@ -39,6 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     setUserAuth(null);
+    alert("logout successful!");
   };
 
   return (
