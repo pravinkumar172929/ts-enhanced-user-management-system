@@ -16,9 +16,9 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
-  const goToAddUser = () => {
-    navigate("/add-user");
-  };
+  // const goToAddUser = () => {
+  //   navigate("/add-user");
+  // };
 
   const goToLogin = () => {
     navigate("/login");
