@@ -31,7 +31,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   });
   const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
-  const { data, isLoading, error, fetchData } = useFetch<UserFormData>(
+  const { isLoading, error, fetchData } = useFetch<UserFormData>(
     `https://jsonplaceholder.typicode.com/users`
   );
 
