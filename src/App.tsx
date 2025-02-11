@@ -17,8 +17,8 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}>
-            <Route path="/" element={<Home />} />
             <Route path="/user/:id" element={<UserProfile />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>

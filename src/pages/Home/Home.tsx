@@ -11,6 +11,7 @@ const Home: React.FC = () => {
   }
 
   const { userAuth } = authContext;
+  console.log(userAuth);
 
   return (
     <>
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
       ) : (
         <>
           <h2>Welcome! You have been Logged in as {userAuth.name}</h2>
+          <UserList />
           {userAuth.role === "Admin" && (
             <>
               <h3>Click Here to add User</h3>
@@ -43,7 +45,7 @@ const Home: React.FC = () => {
           )}
         </>
       )}
-      <UserList />
+      {/* <UserList /> */}
     </>
   );
 };
