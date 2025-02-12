@@ -13,7 +13,6 @@ const Home: React.FC = () => {
   }
 
   const { userAuth } = authContext;
-  console.log(userAuth);
 
   return (
     <>

@@ -1,13 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Login.module.css";
-const {
-  formContainer,
-  // successMessageStyle,
-  inputField,
-  button,
-  // errorContainer,
-} = styles;
+const { formContainer, inputField, button } = styles;
 
 interface UserInputProps {
   email: string;
