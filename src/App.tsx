@@ -17,14 +17,14 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/login" element={<Login />} />
-          {/* <Route element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}> */}
           <Route path="/" element={<Home />} />
-          <Route path="/user/:id" element={<UserProfile />} />
-          {/* </Route> */}
-          {/* <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}> */}
-          <Route path="/add-user" element={<AddUser />} />
-          <Route path="/edit-user/:id" element={<EditUser />} />
-          {/* </Route> */}
+          <Route element={<ProtectedRoute allowedRoles={["Admin", "User"]} />}>
+            <Route path="/user/:id" element={<UserProfile />} />
+          </Route>
+          <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+            <Route path="/add-user" element={<AddUser />} />
+            <Route path="/edit-user/:id" element={<EditUser />} />
+          </Route>
         </Routes>
       </Suspense>
     </>

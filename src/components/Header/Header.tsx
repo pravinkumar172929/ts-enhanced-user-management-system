@@ -16,10 +16,6 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
-  const goToAddUser = () => {
-    navigate("/add-user");
-  };
-
   const goToLogin = () => {
     navigate("/login");
   };
@@ -42,9 +38,6 @@ const Header: React.FC = () => {
               </li>
             )}
             <li className={navbarTitle}>User Management System</li>
-            <li className={navbarListItem} onClick={goToAddUser}>
-              Add User
-            </li>
           </ul>
         </nav>
       </header>

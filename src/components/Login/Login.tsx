@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import styles from "./Login.module.css";
+const { formContainer, inputField, button } = styles;
+
+interface UserInputProps {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
   const authContext = useContext(AuthContext);
@@ -8,29 +15,42 @@ const Login: React.FC = () => {
   }
   const { login } = authContext;
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userInput, setUserInput] = useState<UserInputProps>({
+    email: "",
+    password: "",
+  });
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  };
 
   const loginHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
+    await login(userInput.email, userInput.password);
   };
 
   return (
-    <div>
+    <div className={formContainer}>
+      <h1>Login</h1>
       <input
         type="text"
         placeholder="Your email here..."
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={userInput.email}
+        onChange={changeHandler}
+        className={inputField}
+        name="email"
       />
       <input
         type="password"
         placeholder="Your password..."
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={userInput.password}
+        onChange={changeHandler}
+        className={inputField}
+        name="password"
       />
-      <button onClick={loginHandler}>Login</button>
+      <button onClick={loginHandler} className={button}>
+        Login
+      </button>
     </div>
   );
 };
