@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Login.module.css";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 const { formContainer, inputField, button } = styles;
 
 interface UserInputProps {
@@ -11,10 +13,26 @@ interface UserInputProps {
 
 interface TestFormInputs {
   test: string;
+  accountNumber: string;
 }
 
+const inputSchema = yup.object().shape({
+  test: yup.string().required("Name required"),
+  accountNumber: yup
+    .string()
+    .matches(/^\d{5}$/, "Account number must be exactly 5 digits") // Regex validation
+    .required("Account number is required"),
+});
+
 const Login: React.FC = () => {
-  const { register, handleSubmit } = useForm<TestFormInputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TestFormInputs>({
+    resolver: yupResolver(inputSchema),
+    mode: "onChange",
+  });
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("Something wrong!!");
@@ -63,6 +81,15 @@ const Login: React.FC = () => {
       </button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register("test")} />
+        {errors.test && <p style={{ color: "red" }}>{errors.test.message}</p>}
+        <input
+          type="text"
+          placeholder="Enter 5-digit account number"
+          {...register("accountNumber")}
+        />
+        {errors.accountNumber && (
+          <p style={{ color: "red" }}>{errors.accountNumber.message}</p>
+        )}
         <button type="submit">Submit</button>
       </form>
     </div>
