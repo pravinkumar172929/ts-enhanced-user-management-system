@@ -17,28 +17,10 @@ const Login: React.FC = () => {
   }
   const { login } = authContext;
 
-  // const [userInput, setUserInput] = useState<UserInputProps>({
-  //   email: "",
-  //   password: "",
-  // });
-
-  // const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  // };
-
   const loginHandler = async (inputValues: UserInputProps) => {
-    // e.preventDefault();
     await login(inputValues.email, inputValues.password);
   };
 
-  // interface TestInput {
-  //   testName: string;
-  //   testEmail: string;
-  // }
-  // const testSchema = yup.object().shape({
-  //   testName: yup.string().required("Name is required"),
-  //   testEmail: yup.string().email("Invalid email").required("Email required"),
-  // });
   const inputValidationSchema = yup.object().shape({
     email: yup.string().email("Invalid Email").required("Name is Required"),
     password: yup.string().required("Password is Required"),
@@ -47,30 +29,8 @@ const Login: React.FC = () => {
   return (
     <div className={formContainer}>
       <h1>Login</h1>
-      {/* <Formik<TestInput>
-        initialValues={{ testName: "", testEmail: "" }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={testSchema}
-      >
-        <Form>
-          <Field type="text" name="testName" placeholder="test name" />
-          <ErrorMessage
-            name="testName"
-            component="p"
-            className={errorMessage}
-          />
-          <Field type="text" name="testEmail" placeholder="test email" />
-          <ErrorMessage
-            name="testEmail"
-            component="p"
-            className={errorMessage}
-          />
-          <button type="submit">submit</button>
-        </Form>
-      </Formik> */}
       <Formik
         onSubmit={(values) => {
-          console.log(values);
           loginHandler(values);
         }}
         validationSchema={inputValidationSchema}
@@ -100,25 +60,6 @@ const Login: React.FC = () => {
           </button>
         </Form>
       </Formik>
-      {/* <input
-        type="text"
-        placeholder="Your email here..."
-        value={userInput.email}
-        onChange={changeHandler}
-        className={inputField}
-        name="email"
-      />
-      <input
-        type="password"
-        placeholder="Your password..."
-        value={userInput.password}
-        onChange={changeHandler}
-        className={inputField}
-        name="password"
-      />
-      <button onClick={loginHandler} className={button}>
-        Login
-      </button> */}
     </div>
   );
 };
