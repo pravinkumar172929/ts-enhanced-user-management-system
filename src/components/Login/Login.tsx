@@ -1,7 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Login.module.css";
-const { formContainer, inputField, button } = styles;
+import * as yup from "yup";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+const { formContainer, inputField, button, errorMessage } = styles;
 
 interface UserInputProps {
   email: string;
@@ -15,42 +17,49 @@ const Login: React.FC = () => {
   }
   const { login } = authContext;
 
-  const [userInput, setUserInput] = useState<UserInputProps>({
-    email: "",
-    password: "",
+  const loginHandler = async (inputValues: UserInputProps) => {
+    await login(inputValues.email, inputValues.password);
+  };
+
+  const inputValidationSchema = yup.object().shape({
+    email: yup.string().email("Invalid Email").required("Name is Required"),
+    password: yup.string().required("Password is Required"),
   });
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
-
-  const loginHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await login(userInput.email, userInput.password);
-  };
 
   return (
     <div className={formContainer}>
       <h1>Login</h1>
-      <input
-        type="text"
-        placeholder="Your email here..."
-        value={userInput.email}
-        onChange={changeHandler}
-        className={inputField}
-        name="email"
-      />
-      <input
-        type="password"
-        placeholder="Your password..."
-        value={userInput.password}
-        onChange={changeHandler}
-        className={inputField}
-        name="password"
-      />
-      <button onClick={loginHandler} className={button}>
-        Login
-      </button>
+      <Formik
+        onSubmit={(values) => {
+          loginHandler(values);
+        }}
+        validationSchema={inputValidationSchema}
+        initialValues={{ email: "", password: "" }}
+      >
+        <Form>
+          <Field
+            type="text"
+            name="email"
+            placeholder="Your email here..."
+            className={inputField}
+          />
+          <ErrorMessage name="email" component="p" className={errorMessage} />
+          <Field
+            type="text"
+            name="password"
+            placeholder="Your password..."
+            className={inputField}
+          />
+          <ErrorMessage
+            name="password"
+            component="p"
+            className={errorMessage}
+          />
+          <button type="submit" className={button}>
+            Login
+          </button>
+        </Form>
+      </Formik>
     </div>
   );
 };
