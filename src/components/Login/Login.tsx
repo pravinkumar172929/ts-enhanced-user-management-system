@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Login.module.css";
 import * as yup from "yup";
