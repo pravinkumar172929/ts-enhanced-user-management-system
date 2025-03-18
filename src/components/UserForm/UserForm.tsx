@@ -23,7 +23,7 @@ interface UserFormProps {
 
 type UserFormData = Pick<
   User,
-  "name" | "email" | "phone" | "website" | "password"
+  "name" | "email" | "phone" | "website" | "password" | "role"
 >;
 
 const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
@@ -59,9 +59,13 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   const userFormValidationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid Email").required("Email is required"),
-    password: yup.string().required(),
+    password: yup.string().required("Password is required"),
     phone: yup.string().required("Phone number is required"),
     website: yup.string(),
+    role: yup
+      .string()
+      .oneOf(["User", "Admin"], "Invalid Role")
+      .required("Role is required"),
   });
 
   return (
@@ -81,6 +85,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
               password: clickedUser ? clickedUser.password : "",
               phone: clickedUser ? clickedUser.phone : "",
               website: clickedUser ? clickedUser.website : "",
+              role: clickedUser ? clickedUser.role : "User",
             }}
             onSubmit={(values) => {
               submitHandler(values);
@@ -110,17 +115,21 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
                 component="p"
                 className={errorMessage}
               />
-              <Field
-                type="text"
-                name="password"
-                placeholder="Your Password..."
-                className={inputField}
-              />
-              <ErrorMessage
-                name="password"
-                component="p"
-                className={errorMessage}
-              />
+              {!clickedUser && (
+                <>
+                  <Field
+                    type="text"
+                    name="password"
+                    placeholder="Your Password..."
+                    className={inputField}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className={errorMessage}
+                  />
+                </>
+              )}
               <Field
                 type="text"
                 name="phone"
@@ -140,6 +149,15 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
               />
               <ErrorMessage
                 name="website"
+                component="p"
+                className={errorMessage}
+              />
+              <Field as="select" type="text" name="role" className={inputField}>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+              </Field>
+              <ErrorMessage
+                name="role"
                 component="p"
                 className={errorMessage}
               />

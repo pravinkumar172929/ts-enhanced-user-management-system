@@ -96,6 +96,15 @@
       "phone": "09953126029",
       "website": "",
       "password": "tgtgtmg"
+    },
+    {
+      "id": "d8b6",
+      "name": "smith",
+      "email": "smith@fake.com",
+      "password": "pass",
+      "phone": "56",
+      "website": "google",
+      "role": "User"
     }
   ]
 }

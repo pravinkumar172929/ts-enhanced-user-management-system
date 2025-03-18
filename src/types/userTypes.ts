@@ -6,6 +6,7 @@ export interface User {
   password: string;
   phone: string;
   website: string;
+  role: string;
   address: {
     street: string;
     suite: string;
