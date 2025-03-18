@@ -4,8 +4,9 @@ import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
-// import usePost from "../../hooks/usePost";
-import useFetch from "../../hooks/useFetch";
+import usePost from "../../hooks/usePost";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as yup from "yup";
 
 const {
   formContainer,
@@ -13,35 +14,29 @@ const {
   inputField,
   button,
   errorContainer,
+  errorMessage,
 } = styles;
 
 interface UserFormProps {
   clickedUser: User | undefined;
 }
 
-type UserFormData = Pick<User, "name" | "email" | "phone" | "website">;
+type UserFormData = Pick<
+  User,
+  "name" | "email" | "phone" | "website" | "password" | "role"
+>;
 
 const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserFormData>({
-    name: clickedUser ? clickedUser.name : "",
-    email: clickedUser ? clickedUser.email : "",
-    phone: clickedUser ? clickedUser.phone : "",
-    website: clickedUser ? clickedUser.website : "",
-  });
+
   const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
-  const { isLoading, error, fetchData } = useFetch<UserFormData>(
-    `https://jsonplaceholder.typicode.com/users`
+  const { isLoading, error, postDataFunction } = usePost<UserFormData>(
+    `http://localhost:4000/users`
   );
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await fetchData(user);
+  const submitHandler = async (inputValues: UserFormData) => {
+    await postDataFunction(inputValues);
 
     if (!error) {
       setSuccessMessage(
@@ -61,6 +56,18 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
       </div>
     );
 
+  const userFormValidationSchema = yup.object().shape({
+    name: yup.string().required("Name is required"),
+    email: yup.string().email("Invalid Email").required("Email is required"),
+    password: yup.string().required("Password is required"),
+    phone: yup.string().required("Phone number is required"),
+    website: yup.string(),
+    role: yup
+      .string()
+      .oneOf(["User", "Admin"], "Invalid Role")
+      .required("Role is required"),
+  });
+
   return (
     <div className={formContainer}>
       {isLoading ? (
@@ -71,41 +78,94 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
           {successMessage && (
             <p className={successMessageStyle}>{successMessage}</p>
           )}
-          <input
-            type="text"
-            placeholder="Your Full Name..."
-            name="name"
-            onChange={changeHandler}
-            value={user.name}
-            className={inputField}
-          />
-          <input
-            type="email"
-            placeholder="Your Email..."
-            name="email"
-            onChange={changeHandler}
-            value={user.email}
-            className={inputField}
-          />
-          <input
-            type="text"
-            placeholder="Your Phone..."
-            name="phone"
-            onChange={changeHandler}
-            value={user.phone}
-            className={inputField}
-          />
-          <input
-            type="text"
-            placeholder="Your Website..."
-            name="website"
-            onChange={changeHandler}
-            value={user.website}
-            className={inputField}
-          />
-          <button className={button} onClick={submitHandler}>
-            {clickedUser ? "Update" : "Add"} User
-          </button>
+          <Formik<UserFormData>
+            initialValues={{
+              name: clickedUser ? clickedUser.name : "",
+              email: clickedUser ? clickedUser.email : "",
+              password: clickedUser ? clickedUser.password : "",
+              phone: clickedUser ? clickedUser.phone : "",
+              website: clickedUser ? clickedUser.website : "",
+              role: clickedUser ? clickedUser.role : "User",
+            }}
+            onSubmit={(values) => {
+              submitHandler(values);
+            }}
+            validationSchema={userFormValidationSchema}
+          >
+            <Form>
+              <Field
+                type="text"
+                name="name"
+                placeholder="Your Full Name..."
+                className={inputField}
+              />
+              <ErrorMessage
+                name="name"
+                component="p"
+                className={errorMessage}
+              />
+              <Field
+                type="email"
+                name="email"
+                placeholder="Your Email..."
+                className={inputField}
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className={errorMessage}
+              />
+              {!clickedUser && (
+                <>
+                  <Field
+                    type="text"
+                    name="password"
+                    placeholder="Your Password..."
+                    className={inputField}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="p"
+                    className={errorMessage}
+                  />
+                </>
+              )}
+              <Field
+                type="text"
+                name="phone"
+                placeholder="Your Phone..."
+                className={inputField}
+              />
+              <ErrorMessage
+                name="phone"
+                component="p"
+                className={errorMessage}
+              />
+              <Field
+                type="text"
+                name="website"
+                placeholder="Your Website..."
+                className={inputField}
+              />
+              <ErrorMessage
+                name="website"
+                component="p"
+                className={errorMessage}
+              />
+              <Field as="select" type="text" name="role" className={inputField}>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+              </Field>
+              <ErrorMessage
+                name="role"
+                component="p"
+                className={errorMessage}
+              />
+              <button type="submit" className={button}>
+                {clickedUser ? "Update" : "Add"} User
+              </button>
+            </Form>
+          </Formik>
         </>
       )}
     </div>

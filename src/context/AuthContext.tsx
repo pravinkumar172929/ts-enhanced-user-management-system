@@ -22,9 +22,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(
-        `https://67a46ad631d0d3a6b78646cc.mockapi.io/users/users`
-      );
+      const response = await fetch(`http://localhost:4000/users`);
       const result: UserAuth[] = await response.json();
       const foundUser = result.find(
         (user) => user.email === email && user.password === password
