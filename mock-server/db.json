@@ -1,6 +1,101 @@
 {
   "users": [
-    { "id": 1, "username": "admin", "password": "admin123", "role": "admin" },
-    { "id": 2, "username": "user", "password": "user123", "role": "user" }
+    {
+      "name": "Fannie Durgan",
+      "email": "email1@fake.com",
+      "password": "password1",
+      "role": "Admin",
+      "id": "1"
+    },
+    {
+      "name": "Chad Effertz",
+      "email": "email2@fake.com",
+      "password": "password2",
+      "role": "Admin",
+      "id": "2"
+    },
+    {
+      "name": "Alfonso Abbott",
+      "email": "email3@fake.com",
+      "password": "password3",
+      "role": "Admin",
+      "id": "3"
+    },
+    {
+      "name": "Gloria Mayert MD",
+      "email": "email4@fake.com",
+      "password": "password4",
+      "role": "Admin",
+      "id": "4"
+    },
+    {
+      "name": "Mr. Ann Luettgen",
+      "email": "email5@fake.com",
+      "password": "password5",
+      "role": "Admin",
+      "id": "5"
+    },
+    {
+      "name": "Kelley Beatty",
+      "email": "email6@fake.com",
+      "password": "password6",
+      "role": "User",
+      "id": "6"
+    },
+    {
+      "name": "Adrian McDermott",
+      "email": "email7@fake.com",
+      "password": "password7",
+      "role": "User",
+      "id": "7"
+    },
+    {
+      "name": "Danny Gorczany",
+      "email": "email8@fake.com",
+      "password": "password8",
+      "role": "User",
+      "id": "8"
+    },
+    {
+      "name": "Ms. Georgia Bernhard",
+      "email": "email9@fake.com",
+      "password": "password9",
+      "role": "User",
+      "id": "9"
+    },
+    {
+      "name": "Sergio Hilpert",
+      "email": "email10@fake.com",
+      "password": "password10",
+      "role": "User",
+      "id": "10"
+    },
+    {
+      "id": "6697",
+      "username": "newuser",
+      "password": "newpass",
+      "role": "user"
+    },
+    {
+      "id": "8ac0",
+      "username": "newuser",
+      "password": "newpass",
+      "role": "user"
+    },
+    {
+      "id": "0d8e",
+      "name": "Pravin Kumar",
+      "email": "pravinkumar29.1729@gmail.com",
+      "phone": "09953126029",
+      "website": "google"
+    },
+    {
+      "id": "a555",
+      "name": "Pravin Kumar",
+      "email": "pravinkumar29.1729@gmail.com",
+      "phone": "09953126029",
+      "website": "",
+      "password": "tgtgtmg"
+    }
   ]
 }

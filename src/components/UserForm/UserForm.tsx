@@ -4,8 +4,7 @@ import Loader from "../Loader/Loader";
 import { User } from "../../types/userTypes";
 import styles from "./userForm.module.css";
 import { useNavigate } from "react-router-dom";
-// import usePost from "../../hooks/usePost";
-import useFetch from "../../hooks/useFetch";
+import usePost from "../../hooks/usePost";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 
@@ -22,19 +21,22 @@ interface UserFormProps {
   clickedUser: User | undefined;
 }
 
-type UserFormData = Pick<User, "name" | "email" | "phone" | "website">;
+type UserFormData = Pick<
+  User,
+  "name" | "email" | "phone" | "website" | "password"
+>;
 
 const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   const navigate = useNavigate();
 
   const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
-  const { isLoading, error, fetchData } = useFetch<UserFormData>(
-    `https://jsonplaceholder.typicode.com/users`
+  const { isLoading, error, postDataFunction } = usePost<UserFormData>(
+    `http://localhost:4000/users`
   );
 
   const submitHandler = async (inputValues: UserFormData) => {
-    await fetchData(inputValues);
+    await postDataFunction(inputValues);
 
     if (!error) {
       setSuccessMessage(
@@ -57,6 +59,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
   const userFormValidationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid Email").required("Email is required"),
+    password: yup.string().required(),
     phone: yup.string().required("Phone number is required"),
     website: yup.string(),
   });
@@ -75,6 +78,7 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
             initialValues={{
               name: clickedUser ? clickedUser.name : "",
               email: clickedUser ? clickedUser.email : "",
+              password: clickedUser ? clickedUser.password : "",
               phone: clickedUser ? clickedUser.phone : "",
               website: clickedUser ? clickedUser.website : "",
             }}
@@ -103,6 +107,17 @@ const UserForm: React.FC<UserFormProps> = ({ clickedUser }) => {
               />
               <ErrorMessage
                 name="email"
+                component="p"
+                className={errorMessage}
+              />
+              <Field
+                type="text"
+                name="password"
+                placeholder="Your Password..."
+                className={inputField}
+              />
+              <ErrorMessage
+                name="password"
                 component="p"
                 className={errorMessage}
               />
